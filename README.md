@@ -28,10 +28,8 @@ You can install the `mylm` package from GitHub using the following command:
 # install.packages("devtools")
 
 # Install the customlm package
-devtools::install_github("your-username/mylm")
+devtools::install_github("sichengq/625_homework3")
 ```
-
-Replace `"your-username/mylm"` with your actual GitHub username and repository name.
 
 ## Usage {#usage}
 
