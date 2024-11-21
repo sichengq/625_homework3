@@ -135,3 +135,4 @@ test_that("my_lm handles offsets correctly", {
   # Check residuals length
   expect_equal(length(fit$residuals), nrow(mtcars))
 })
+

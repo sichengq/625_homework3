@@ -135,4 +135,3 @@ my_lm <- function(formula, data, subset = NULL, weights = NULL,
   class(fit) <- "lm"
   return(fit)
 }
-

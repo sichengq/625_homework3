@@ -9,7 +9,7 @@ vignette: >
 
 # Introduction
 
-The `my_lm_package` is a custom implementation of the base R `lm` function. It provides additional flexibility and diagnostics for fitting linear models, including support for weighted least squares, offsets, and handling singular fits.
+The `homework3 package` is a custom implementation of the base R `lm` function. It provides additional flexibility and diagnostics for fitting linear models, including support for weighted least squares, offsets, and handling singular fits.
 
 In this vignette, we demonstrate the basic usage of `my_lm`, compare its output with base R's `lm`, and evaluate its performance.
 

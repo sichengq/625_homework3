@@ -10,21 +10,21 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// qr_lm
-NumericVector qr_lm(const NumericMatrix& X, const NumericVector& y);
-RcppExport SEXP _homework3_qr_lm(SEXP XSEXP, SEXP ySEXP) {
+// simple_lm
+NumericVector simple_lm(NumericMatrix X, NumericVector y);
+RcppExport SEXP _homework3_simple_lm(SEXP XSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const NumericMatrix& >::type X(XSEXP);
-    Rcpp::traits::input_parameter< const NumericVector& >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(qr_lm(X, y));
+    Rcpp::traits::input_parameter< NumericMatrix >::type X(XSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    rcpp_result_gen = Rcpp::wrap(simple_lm(X, y));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_homework3_qr_lm", (DL_FUNC) &_homework3_qr_lm, 2},
+    {"_homework3_simple_lm", (DL_FUNC) &_homework3_simple_lm, 2},
     {NULL, NULL, 0}
 };
 
