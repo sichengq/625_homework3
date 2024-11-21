@@ -40,51 +40,35 @@ jobs:
           r-version: ${{ matrix.config.r }}
           use-public-rspm: true
 
-      # Step 4: Debug and Install qpdf on macOS
-      - name: Debug and Install qpdf (macOS only)
-        if: runner.os == 'macOS'
+      # Step 4: Install System Dependencies
+      - name: Install system dependencies (Linux/macOS)
+        if: runner.os != 'Windows'
         run: |
-          # Debug Homebrew
-          brew update-reset || true
-          brew doctor || true
-          brew cleanup || true
-          # Attempt to install qpdf
-          brew install qpdf || echo "qpdf installation failed. Skipping..."
-          # Verify installation
-          if ! command -v qpdf &> /dev/null; then
-            echo "qpdf is not installed. Skipping tests that require qpdf."
+          if [ "${{ matrix.config.os }}" = "macos-latest" ]; then
+            brew update-reset
+            brew install qpdf || echo "qpdf installation failed. Skipping..."
           else
-            echo "qpdf successfully installed"
+            sudo apt-get update
+            sudo apt-get install -y qpdf ghostscript
           fi
 
-      # Step 5: Install qpdf and dependencies on Linux
-      - name: Install qpdf (Linux)
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y qpdf ghostscript
-
-      # Step 6: Install qpdf on Windows using Chocolatey
       - name: Install qpdf (Windows)
         if: runner.os == 'Windows'
-        run: |
-          choco install qpdf --no-progress
+        run: choco install qpdf --no-progress
 
-      # Step 7: Install R dependencies
+      # Step 5: Install R dependencies
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
-          needs: check
+          extra-packages: covr
 
-      # Step 8: Run R CMD check
+      # Step 6: Run R CMD check
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
           build_args: 'c("--no-manual", "--compact-vignettes=gs+qpdf")'
 
-      # Step 9: Run Code Coverage
-      - name: Run code coverage and upload results to Codecov
-        run: |
-          Rscript -e 'covr::codecov()'
+      # Step 7: Run Code Coverage and Upload to Codecov
+      - name: Run code coverage
+        run: Rscript -e 'covr::codecov()'
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
