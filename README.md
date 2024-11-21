@@ -5,6 +5,8 @@
 
 # customlm: A Custom Linear Model Implementation
 
+[![R-CMD-check.yaml](https://github.com/sichengq/625_homework3/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sichengq/625_homework3/actions/workflows/R-CMD-check.yaml)
+
 Sicheng Qian
 
 - [homework3 Package](#homewoek3-package)
