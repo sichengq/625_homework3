@@ -6,6 +6,7 @@
 # customlm: A Custom Linear Model Implementation
 
 [![R-CMD-check.yaml](https://github.com/sichengq/625_homework3/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/sichengq/625_homework3/actions/workflows/R-CMD-check.yaml)
+[![codecov](https://codecov.io/gh/sichengq/625_homework3/graph/badge.svg?token=1SJZ4O9GBU)](https://codecov.io/gh/sichengq/625_homework3)
 
 Sicheng Qian
 
