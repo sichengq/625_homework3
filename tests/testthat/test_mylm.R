@@ -136,3 +136,39 @@ test_that("my_lm handles offsets correctly", {
   expect_equal(length(fit$residuals), nrow(mtcars))
 })
 
+test_that("Error is thrown when formula is missing", {
+  expect_error(my_lm(data = mtcars), "Formula must be provided.")
+})
+
+test_that("Error is thrown for unsupported method", {
+  expect_error(my_lm(mpg ~ wt, data = mtcars, method = "unknown"),
+               "Only 'qr' method is supported.")
+})
+
+test_that("Error is thrown when data is empty", {
+  empty_data <- data.frame(mpg = numeric(), wt = numeric())
+  expect_error(my_lm(mpg ~ wt, data = empty_data), "No data to fit the model.")
+})
+
+test_that("Error is thrown for negative weights", {
+  data <- mtcars
+  data$wt <- data$wt - 10
+  weights <- c(-1, rep(1, nrow(data) - 1))
+  expect_error(my_lm(mpg ~ wt, data = data, weights = weights),
+               "Weights must be non-negative.")
+})
+
+test_that("Error is thrown for invalid offset length", {
+  data <- mtcars
+  offset <- rep(1, nrow(data) + 1)
+  expect_error(my_lm(mpg ~ wt, data = data, offset = offset),
+               "Invalid offset length: must match the number of rows in the data.")
+})
+
+
+
+
+
+
+
+

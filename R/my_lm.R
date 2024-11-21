@@ -44,14 +44,19 @@
 #' @importFrom stats .getXlevels model.matrix model.offset
 #'   model.response model.weights na.omit setNames
 
-
-
 my_lm <- function(formula, data, subset = NULL, weights = NULL,
                   na.action = na.omit, method = "qr", model = TRUE,
                   x = FALSE, y = FALSE, qr = TRUE, singular.ok = TRUE,
                   contrasts = NULL, offset = NULL, ...) {
   if (missing(formula)) stop("Formula must be provided.")
   if (method != "qr") stop("Only 'qr' method is supported.")
+
+  # Validate offset length before calling model.frame
+  if (!is.null(offset) && !is.null(data)) {
+    if (length(offset) != nrow(data)) {
+      stop("Invalid offset length: must match the number of rows in the data.")
+    }
+  }
 
   # Prepare the model frame
   mf <- match.call(expand.dots = FALSE)
@@ -69,7 +74,6 @@ my_lm <- function(formula, data, subset = NULL, weights = NULL,
 
   if (nrow(mf) == 0L) stop("No data to fit the model.")
 
-
   # Extract components
   mt <- attr(mf, "terms")
   y_var <- model.response(mf, "numeric")
@@ -85,8 +89,6 @@ my_lm <- function(formula, data, subset = NULL, weights = NULL,
   offset <- model.offset(mf)
   if (is.null(offset)) {
     offset <- rep(0, length(y_var))
-  } else if (length(offset) != length(y_var)) {
-    stop("Invalid offset length: must match the length of the response variable.")
   }
 
   # Apply weights and offsets
@@ -96,9 +98,6 @@ my_lm <- function(formula, data, subset = NULL, weights = NULL,
 
   # Perform QR decomposition
   qr_fit <- qr(x_weighted)
-  # Perform QR decomposition
-  qr_fit <- qr(x_weighted)
-
 
   if (qr_fit$rank < ncol(x_mat)) {
     if (!singular.ok) {
@@ -135,3 +134,5 @@ my_lm <- function(formula, data, subset = NULL, weights = NULL,
   class(fit) <- "lm"
   return(fit)
 }
+
+
